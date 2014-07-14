@@ -14,8 +14,8 @@ module Soundcloud2000
 
     def tracks(page = 1, limit = DEFAULT_LIMIT)
       if File.exist?(AUTH_FILE)
-        auth_file = JSON.parse(File.open(AUTH_FILE))
-        client = SoundClound.new(access_token: auth_file['access_token'])
+        auth_file = JSON.parse(File.open(AUTH_FILE).read)
+        client = ::SoundCloud.new(access_token: auth_file['access_token'])
         client.get('/me/activities', offset: (page - 1) * limit, limit: limit).to_json
       else
         get('/tracks', offset: (page - 1) * limit, limit: limit)
